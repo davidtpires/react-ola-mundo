@@ -1,4 +1,3 @@
-import { Link, useLocation } from 'react-router-dom'
 import styles from './Menu.module.css'
 import MenuLink from '../MenuLink';
 
