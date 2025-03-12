@@ -1,4 +1,6 @@
 import './Post.css'
+import styles from './Post.module.css'
+
 import { Route, Routes, useParams } from "react-router-dom"
 import posts from "json/posts.json"
 import PostModelo from "componentes/PostModelo";
@@ -14,16 +16,20 @@ export default function Post() {
     return post.id === Number(parametros.id);
   })
 
-  const outrosPosts = posts
-    .filter((post) => post.id !== Number(parametros.id)) // Filtra os posts
-    .sort(() => Math.random() - 0.5) // Embaralha o array
-    .slice(0, 4); // Pega os primeiros 4 elementos
-
-  console.log(outrosPosts)
 
   if (!post) {
     return <NaoEncontrada />
   }
+
+  // const outrosPosts = posts
+  //   .filter((post) => post.id !== Number(parametros.id)) // Filtra os posts
+  //   .sort(() => Math.random() - 0.5) // Embaralha o array
+  //   .slice(0, 4); // Pega os primeiros 4 elementos
+
+  const postsRecomendados = posts
+    .filter((post) => post.id !== Number(parametros.id))
+    .sort((a, b) => b.id - a.id)
+    .slice(0, 4);
 
   return (
     <Routes>
@@ -39,13 +45,24 @@ export default function Post() {
               </ReactMarkdown>
             </div>
 
-            <ul className='outros-posts'>
-              {outrosPosts.map((post) => (
+            <h2 className={styles.tituloOutrosPosts}>
+              Outros posts que você pode gostar
+            </h2>
+            <ul className={styles.postsRecomendados}>
+              {postsRecomendados.map((post) => (
                 <li key={post.id}>
                   <PostCard post={post} />
                 </li>
               ))}
             </ul>
+
+            {/* <ul className='outros-posts'>
+              {outrosPosts.map((post) => (
+                <li key={post.id}>
+                  <PostCard post={post} />
+                </li>
+              ))}
+            </ul> */}
           </PostModelo>
 
 
